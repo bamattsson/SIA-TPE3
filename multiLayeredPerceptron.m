@@ -70,10 +70,10 @@ decreaseCounter = 0;
                     [h_2, o] = calculateLayer(W_2, V, 'lineal');
                     Out(j) = o(2);
                 end
-                subplot(1,2,1); plot(dif);
-                subplot(1,2,2);
-                plot(training(:,2)',Out); hold on;
-                plot(training(:,2)',expected,'r*'); 
+%                subplot(1,2,1); plot(dif);
+%                subplot(1,2,2);
+%                plot(training(:,2)',Out); hold on;
+%                plot(training(:,2)',expected,'r*'); 
                 hold off; 
                 shg;
             end
@@ -82,11 +82,11 @@ decreaseCounter = 0;
             if (E < ETol)
                 W{1} = W_1;
                 W{2} = W_2;
-                disp('Error:');
-                disp(E);
-                disp(' ');
-                disp('Cantidad de epocas');
-                disp(i/trainingAmount);
+%                disp('Error:');
+%                disp(E);
+%                disp(' ');
+%                disp('Cantidad de epocas');
+%                disp(i/trainingAmount);
                 return;
             end
         else

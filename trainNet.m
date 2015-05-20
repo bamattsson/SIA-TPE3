@@ -14,5 +14,4 @@ function [W] = trainNet(W, trainingAmount, hiddenAmount, maxIt, ETol, gName, sat
 		disp('Invalid hidden amount');
 		return;
 	end
-	disp(W);
 end

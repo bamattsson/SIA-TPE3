@@ -25,8 +25,8 @@ function [Out] = testNet(W, testing, expected, gName, hiddenAmount)
 		% end
 		Out(j) = V_aux(2);
 	end
-	disp('out');
-	disp(Out);
+%	disp('out');
+%	disp(Out);
 
 	clf
 	figure(1);

@@ -100,11 +100,11 @@ for i = 1:maxIt
             subplot(1,2,2); title('aprendizaje');
             plot(training(:,2)',Out); hold on;
             plot(training(:,2)',expected,'r*'); hold off; shg;
-            disp('Error:');
-            disp(E);
-            disp(' ');
-            disp('Cantidad de epocas');
-            disp(i/trainingAmount);
+%            disp('Error:');
+%            disp(E);
+%            disp(' ');
+%            disp('Cantidad de epocas');
+%            disp(i/trainingAmount);
             return;
         end
         else
