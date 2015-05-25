@@ -1,10 +1,22 @@
-individuals = 3;
-[training, expected] = generateTrainingTPfunctionChosenOnes(200);
-W = generateIndividuals(individuals , 10);
+individualsAmount = 4;
+gName = 'tangente';
+capas = 1;
+nodes = 10;
+trainingAmount = 200;
+selectionMode = 'elite';
+selectionAmount = 2;
 
-for i=1:individuals 
-  test{i} = testNet(W{i}, training, expected, 'tangente', 1);
+[training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
+W = generateIndividuals(individualsAmount , nodes);
 
+%for i=1:individuals 
+% test{i} = testNet(W{i}, training, expected, 'tangente', 1);
+%end
+
+for i=1:individualsAmount
+  E(i) = fitness(W{i}, training, expected, gName, capas);
 end
 
-disp(test);
+disp(E);
+
+selection(individualsAmount, W, E, selectionMode, selectionAmount);

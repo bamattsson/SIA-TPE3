@@ -1,8 +1,8 @@
-function [E] = fitness(W, training, expected, gName, capas);
+function [E] = fitness(W, testing, expected, gName, capas);
 
-length = size(training,1);
+length = size(testing,1);
 
-test = testNet(W, training, expected, gName, capas);
+test = testNet(W, testing, expected, gName, capas);
 
 E = 0;
 for i=1:length
