@@ -5,11 +5,11 @@
 function selectIndiv = selection(individualsAmount, individuals, fitness, selectionMode, k, m, t)
   switch(selectionMode)
     case 'elite'
-      selectedIndiv = selectionElite(individualsAmount, individuals, fitness, k);
+      selectIndiv = selectionElite(individualsAmount, individuals, fitness, k);
     case 'detTournament'
-      selectedIndiv = selectionDeterministicTournament(individualsAmount, individuals, fitness, m, k);
+      selectIndiv = selectionDeterministicTournament(individualsAmount, individuals, fitness, m, k);
     case 'probTournament'
-      selectedIndiv = selectionProbabilisticTournament(individualsAmount, individuals, fitness, k);
+      selectIndiv = selectionProbabilisticTournament(individualsAmount, individuals, fitness, k);
     case 'roulette'
       selectIndiv = selectionRouletteUniversal(individualsAmount, individuals, fitness, k, selectionMode);
     case 'universal'
