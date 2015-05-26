@@ -12,6 +12,7 @@ function [W, dif, out] = multiLayeredPerceptron2(W_1, W_2, W_3, trainingSet, gNa
     delta_prev_3 = 0;
     saturationDeltaTangente = 0.001;
     saturationDeltaExponencial = 0.01;
+    dif=0;
 
     W_1_best = W_1; W_2_best = W_2; W_3_best = W_3;
 
@@ -85,10 +86,10 @@ for i = 1:maxIt
                 Out(j) = o(2);
                 out=Out;
             end
-            subplot(1,2,1);title('error cuadrático medio'); plot(dif);
-            subplot(1,2,2);title('aprendizaje');
-            plot(training(:,2)',Out); hold on;
-            plot(training(:,2)',expected,'r*'); hold off; shg;
+            % subplot(1,2,1);title('error cuadrático medio'); plot(dif);
+            % subplot(1,2,2);title('aprendizaje');
+            % plot(training(:,2)',Out); hold on;
+            % plot(training(:,2)',expected,'r*'); hold off; shg;
         end
         
         % Break if error is smaller than tollerance
@@ -96,12 +97,12 @@ for i = 1:maxIt
             W{1} = W_1;
             W{2} = W_2;
             W{3} = W_3;
-            subplot(1,2,1); title('error cuadrático medio');plot(dif);
-            subplot(1,2,2); title('aprendizaje');
-            plot(training(:,2)',Out); hold on;
-            plot(training(:,2)',expected,'r*'); hold off; shg;
-%            disp('Error:');
-%            disp(E);
+            % subplot(1,2,1); title('error cuadrático medio');plot(dif);
+            % subplot(1,2,2); title('aprendizaje');
+            % plot(training(:,2)',Out); hold on;
+            % plot(training(:,2)',expected,'r*'); hold off; shg;
+           disp('Error:');
+           disp(E);
 %            disp(' ');
 %            disp('Cantidad de epocas');
 %            disp(i/trainingAmount);
