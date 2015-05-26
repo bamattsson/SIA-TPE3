@@ -7,5 +7,5 @@ function [vec,dimensions] = cellToVector(individual)
 	cols2 = size(individual{2},2);
 	%el último set de pesos siempre tiene una fila, el primero lo pusimos por columnas (2)
 	vec = [individual{1}(:,1);individual{1}(:,2); individual{2}(1,:)']';
-	dimensions = [rows1 cols1 rows2 cols2]
+	dimensions = [rows1 cols1 rows2 cols2];
 end
