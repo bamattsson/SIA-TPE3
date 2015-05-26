@@ -21,11 +21,10 @@ function selectIndiv = selectionRouletteUniversal(individualsAmount, individuals
 end
 
 function cum = cumulativeSum(vector)
-	acum = vector;
+	cum = vector;
 	for i=1:size(vector,2)
 		if(i>1)
-			acum(i)=acum(i-1)+acum(i);
+			cum(i)=cum(i-1)+cum(i);
 		end
 	end
 end
-
