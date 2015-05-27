@@ -6,9 +6,14 @@ function sons = crossoverAnular(parents, capas)
 	for i=1:(len)
 		if (i < r)
 			sons{1}(i) = parents{1}(i);
+			sons{2}(i) = parents{2}(i);
 		end
-		if (i >= r)
-			sons{1}(mod(i,len)) = parents{2}(mod(i,len));
+		elseif (i >= r && i <= totalPositions)
+			sons{1}(i) = parents{2}(i);
+			sons{2}(i) = parents{1}(i);
 		end
+		elseif (i >= r && i > totalPositions)
+			sons{1}(mod(i,totalPositions)) = parents{2}(mod(i,totalPositions));
+			sons{2}(mod(i,totalPositions)) = parents{1}(mod(i,totalPositions));
 	end
 end
