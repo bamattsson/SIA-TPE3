@@ -5,11 +5,16 @@ capas = 2;
 nodes1 = 4;
 nodes2 = 2;
 trainingAmount = 200;
+
 selectionMode = 'elite';
 selectionAmount = 2;
+
 breakCriteria = 'maxIt';
 breakVal = 100;
+
 replacementStrategy = 1;
+
+notUniformMutation = 0;
 mutPoss = 0.05;
 mutChange = 0.1;
 
@@ -26,6 +31,7 @@ for i=1:individualsAmount
   E(i) = fitness(W{i}, training, expected, gName, capas);
 end
 
+% Loop that governs the evolution
 iteration = 0;
 while (~breakCriteriaReached)
   iteration = iteration + 1;
@@ -70,6 +76,13 @@ while (~breakCriteriaReached)
       ;
     case 'surrounding'
       ;
+  end
+
+  %Changing mutPoss if using Not Uniform Mutation
+  if (notUniformMutation)
+    if (mutPoss > 0.01);
+      mutPoss = mutPoss*0.95;
+    end
   end
 
 end
