@@ -1,4 +1,4 @@
-function sons = crossoverOnePoint(parents, capas)
+function sons = crossoverOnePoint(parents)
 	totalPositions = size(parents{1},2);
 	r= ceil(rand()*totalPositions);
 	
