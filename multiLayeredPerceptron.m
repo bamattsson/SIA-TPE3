@@ -1,9 +1,10 @@
-function [W, dif] = multiLayeredPerceptron(W_1, W_2, trainingSet, gName, maxIt, ETol, saturationControl, hasAdaptativeEta, hasMomentum, a_etha, b_etha)
+function [W, dif] = multiLayeredPerceptron(W_1, W_2, trainingSet, gName, maxEpochs, ETol, saturationControl, hasAdaptativeEta, hasMomentum, a_etha, b_etha)
 
 training = trainingSet(:,1:end-1);
 expected = trainingSet(:,end);
 inputAmount = size(training,2);
 trainingAmount = size(training, 1);
+maxIt = maxEpochs * trainingAmount;
 alpha = 0.2;
 delta_prev_1 = 0;
 delta_prev_2 = 0;
@@ -168,4 +169,7 @@ decreaseCounter = 0;
             end
         end
     end
+end
+W{1} = W_1_best;
+W{2} = W_2_best;
 end
