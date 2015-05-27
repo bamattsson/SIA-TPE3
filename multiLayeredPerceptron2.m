@@ -1,10 +1,11 @@
-function [W, dif, out] = multiLayeredPerceptron2(W_1, W_2, W_3, trainingSet, gName, maxIt,ETol, saturationControl, hasAdaptativeEta, hasMomentum, a_etha, b_etha)
+function [W, dif, out] = multiLayeredPerceptron2(W_1, W_2, W_3, trainingSet, gName, maxEpochs,ETol, saturationControl, hasAdaptativeEta, hasMomentum, a_etha, b_etha)
 
 %Layers amount (without the entry layer)
 
     training = trainingSet(:,1:end-1);
     expected = trainingSet(:,end);
     trainingAmount = size(training, 1);
+    maxIt = maxEpochs * trainingAmount;
     inputAmount = 1;
     alpha = 0.2;
     delta_prev_1 = 0;
@@ -101,8 +102,8 @@ for i = 1:maxIt
             % subplot(1,2,2); title('aprendizaje');
             % plot(training(:,2)',Out); hold on;
             % plot(training(:,2)',expected,'r*'); hold off; shg;
-           disp('Error:');
-           disp(E);
+%           disp('Error:');
+%           disp(E);
 %            disp(' ');
 %            disp('Cantidad de epocas');
 %            disp(i/trainingAmount);
@@ -191,4 +192,8 @@ for i = 1:maxIt
             end
         end
     end
+end
+W{1} = W_1_best;
+W{2} = W_2_best;
+W{3} = W_3_best;
 end
