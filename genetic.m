@@ -20,4 +20,4 @@ end
 
 disp(E);
 
-selection(individualsAmount, W, E, selectionMode, selectionAmount);
+selectIndiv = selection(individualsAmount, W, E, selectionMode, selectionAmount);
