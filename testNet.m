@@ -28,9 +28,9 @@ function [Out] = testNet(W, testing, expected, gName, hiddenAmount)
 %	disp('out');
 %	disp(Out);
 
-	clf
-	figure(1);
-	plot(testing(:,2)', Out); hold on;
-	plot(testing(:,2)', expected, 'r*'); hold off; shg
-	title('testing');
+	% clf
+	% figure(1);
+	% plot(testing(:,2)', Out); hold on;
+	% plot(testing(:,2)', expected, 'r*'); hold off; shg
+	% title('testing');
 end
