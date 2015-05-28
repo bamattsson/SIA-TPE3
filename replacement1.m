@@ -1,4 +1,4 @@
-function childrens = replacement1( individuals, outputAmount, possibility, change)
+function childrens = replacement1(individuals, outputAmount, pm, change)
 
 numberOfParents = size(individuals, 2);
 for i = 1:numberOfParents
@@ -17,14 +17,14 @@ for i = 1:outputAmount
 
   child = crossoverOnePoint({parent1, parent2});
 
-  childrens{i} = simpleMutation(child{1}, possibility, change);
+  childrens{i} = simpleMutation(child{1}, pm, change);
   if (i < outputAmount)
     i = i+1;
-    childrens{i} = simpleMutation(child{2}, possibility, change);
+    childrens{i} = simpleMutation(child{2}, pm, change);
   end
 
 end
 
-for i = 1:numberOfParents
+for i = 1:outputAmount
   childrens{i} = vectorToCell(childrens{i}, dimension);
 end

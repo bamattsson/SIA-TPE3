@@ -6,12 +6,12 @@ function selectIndiv = selectionBoltzmann(individualsAmount, individuals, fitnes
 	selectedInd = {};
 	numSelected=1;
 
-	expVal = expectedValue(t, fitness, individualsAmount)
-	cumExp = cumulativeSum(expVal)
+	expVal = expectedValue(t, fitness, individualsAmount);
+	cumExp = cumulativeSum(expVal);
 
 	for i=1:k
-		aux = cumExp(size(cumExp,1),size(cumExp,2))
-		r=rand()*aux
+		aux = cumExp(size(cumExp,1),size(cumExp,2));
+		r=rand()*aux;
 		done=0;
 		for j=1:individualsAmount
 			if(~done && cumExp(j)>r)
