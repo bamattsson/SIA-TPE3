@@ -40,7 +40,7 @@ decreaseCounter = 0;
             % Part that regulates how change_weight changes. Decrease if the
             % error doesn't decrease. Increase if error decreases many times in
             % a row.
-            if(hasAdaptativeEta!=-1)
+            if(hasAdaptativeEta~=-1)
                 if (E >= E_best && E_best ~= -1)
                     W_1 = W_1_best;
                     W_2 = W_2_best;
@@ -109,9 +109,9 @@ decreaseCounter = 0;
             end
         end
 
-        if(saturationControl!=-1)
+        if(saturationControl~=-1)
             %Calculate saturation
-            if (i != 1 && mod(i, trainingAmount*saturationControl) == 0)
+            if (i ~= 1 && mod(i, trainingAmount*saturationControl) == 0)
                 disp('in sat');
                 if (gName == 'tangente')
                     sat_delta = saturationDeltaTangente;
@@ -130,7 +130,7 @@ decreaseCounter = 0;
                         end
                     end
                 end
-                if (!saturation)
+                if (~saturation)
                     for u = 1: size(W_2, 1)
                         for v = 2: size(W_2,2)
                             if (abs(W_2(u,v)) < sat_delta)
@@ -142,7 +142,7 @@ decreaseCounter = 0;
                         end
                     end
                 end
-                if (!saturation)
+                if (~saturation)
                     for u = 1: size(W_3, 1)
                         for v = 2: size(W_3,2)
                             if (abs(W_3(u,v)) < sat_delta)
