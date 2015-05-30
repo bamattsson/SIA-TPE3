@@ -6,8 +6,12 @@ nodes1 = 4;
 nodes2 = 2;
 trainingAmount = 200;
 
-selectionMode = 'elite';
+selectionMode = 'mix';
 selectionAmount = 2;
+m = 2;
+t = 0.5;
+n1= 1;
+secondSelectionMode = 'probTournament';
 
 breakCriteria = 'maxIt';
 breakVal = 100;
@@ -27,56 +31,55 @@ W = generateIndividuals(individualsAmount, nodes1, nodes2);
 % test{i} = testNet(W{i}, training, expected, 'tangente', 1);
 %end
 
-for i=1:individualsAmount
-  E(i) = fitness(W{i}, training, expected, gName, capas);
-end
-
 % Loop that governs the evolution
 iteration = 0;
 while (~breakCriteriaReached)
-  iteration = iteration + 1;
+	iteration = iteration + 1;
+	for i=1:individualsAmount
+	  E(i) = fitness(W{i}, training, expected, gName, capas);
+	end
   % Part that does the replacement
-  switch (replacementStrategy)
-    case (1)
-      W_new = replacement1(W, individualsAmount, mutPoss, mutChange);
-      clear('W');
-      W = W_new;
-    case (2)
-      ;
-    case (3)
-      ;
-  end
+  	switch (replacementStrategy)
+		case (1)
+      		W_new = replacement1(W, individualsAmount, mutPoss, mutChange, selectionMode, m ,t, E, n1, secondSelectionMode);
+      		clear('W');
+      		W = W_new;
+   		case (2)
+      		;
+    	case (3)
+      		;
+  	end
 
-  % Evaluates the new individuals
-  % NOTE: Maybe we should put this part in replacementX since it probably
-  % needs to be calculated in replacement2 and replacement3
-  for i=1:individualsAmount
-    E(i) = fitness(W{i}, training, expected, gName, capas);
-  end
+	% Evaluates the new individuals
+	% NOTE: Maybe we should put this part in replacementX since it probably
+	% needs to be calculated in replacement2 and replacement3
+	for i=1:individualsAmount
+	E(i) = fitness(W{i}, training, expected, gName, capas);
+	end
 
-  % Plotting the best individual and the mean
-  medE(iteration) = mean(E);
-  maxE(iteration) = max(E);
-  itVec(iteration) = iteration;
-  plot(itVec, medE, itVec, maxE); shg;
+	% Plotting the best individual and the mean
+	medE(iteration) = mean(E);
+	maxE(iteration) = max(E);
+	itVec(iteration) = iteration;
+	plot(itVec, medE, itVec, maxE); shg;
 
-  % evaluating break critereas
-  switch (breakCriteria)
-    case 'maxIt'
-      if (iteration > breakVal)
-        breakCriteriaReached = 1;
-      end
-    case 'ETol'
-      if (max(E) > breakVal)
-        breakCriteriaReached = 1;
-      end
-    case 'structure'
-      ;
-    case 'content'
-      ;
-    case 'surrounding'
-      ;
-  end
+	% evaluating break critereas
+	switch (breakCriteria)
+		case 'maxIt'
+		  if (iteration > breakVal)
+		    breakCriteriaReached = 1;
+		  end
+		case 'ETol'
+		  if (max(E) > breakVal)
+		    breakCriteriaReached = 1;
+		  end
+		case 'structure'
+		  ;
+		case 'content'
+		  ;
+		case 'surrounding'
+		  ;
+	end
 
   %Changing mutPoss if using Not Uniform Mutation
   if (notUniformMutation)
