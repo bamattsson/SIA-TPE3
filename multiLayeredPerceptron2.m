@@ -48,8 +48,8 @@ for i = 1:maxIt
         % Part that regulates how change_weight changes. Decrease if the
         % error doesn't decrease. Increase if error decreases many times in
         % a row.
-        if(hasAdaptativeEta!=-1)
-            if( i!=1 && mod(i/trainingAmount,25)==0)
+        if(hasAdaptativeEta~=-1)
+            if( i~=1 && mod(i/trainingAmount,25)==0)
                 if (E >= E_best && E_best ~= -1)
                     W_1 = W_1_best;
                     W_2 = W_2_best;
@@ -134,9 +134,9 @@ for i = 1:maxIt
 
     end
 
-    if(saturationControl!=-1)
+    if(saturationControl~=-1)
         %Calculate saturation
-        if (i != 1 && mod(i, trainingAmount*saturationControl) == 0)
+        if (i ~= 1 && mod(i, trainingAmount*saturationControl) == 0)
             if (gName == 'tangente')
                 sat_delta = saturationDeltaTangente;
             else if (gName == 'exponencial')
@@ -154,7 +154,7 @@ for i = 1:maxIt
                     end
                 end
             end
-            if (!saturation)
+            if (~saturation)
                 for u = 1: size(W_2, 1)
                     for v = 2: size(W_2,2)
                         if (abs(W_2(u,v)) < sat_delta)
@@ -166,7 +166,7 @@ for i = 1:maxIt
                     end
                 end
             end
-            if (!saturation)
+            if (~saturation)
                 for u = 1: size(W_3, 1)
                     for v = 2: size(W_3,2)
                         if (abs(W_3(u,v)) < sat_delta)

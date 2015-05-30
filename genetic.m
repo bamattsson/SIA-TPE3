@@ -1,21 +1,23 @@
-clear;
-individualsAmount = 5;
+clear; clf;
+individualsAmount = 10;
 gName = 'tangente';
 capas = 2;
 nodes1 = 4;
 nodes2 = 2;
 trainingAmount = 200;
 
-selectionMode = 'elite';
-selectionAmount = 2;
+selectionMode = 'universal';
+selectionAmount = 7;
+m = 2;
+t = 3;
 
 breakCriteria = 'maxIt';
 breakVal = 100;
 
-replacementStrategy = 1;
+replacementStrategy = 2;
 
 notUniformMutation = 0;
-mutPoss = 0.05;
+mutPoss = 0.2;
 mutChange = 0.1;
 
 breakCriteriaReached = 0;
@@ -32,6 +34,7 @@ for i=1:individualsAmount
 end
 
 % Loop that governs the evolution
+shg;
 iteration = 0;
 while (~breakCriteriaReached)
   iteration = iteration + 1;
@@ -42,9 +45,13 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (2)
-      ;
+      W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, E, m, selectionAmount);
+      clear('W');
+      W = W_new;
     case (3)
-      ;
+      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, selectionAmount, training, expected, gName, capas);
+      clear('W');
+      W = W_new;
   end
 
   % Evaluates the new individuals
@@ -57,8 +64,10 @@ while (~breakCriteriaReached)
   % Plotting the best individual and the mean
   medE(iteration) = mean(E);
   maxE(iteration) = max(E);
+  max(E);
   itVec(iteration) = iteration;
-  plot(itVec, medE, itVec, maxE); shg;
+  plot(itVec, medE, itVec, maxE); 
+  drawnow;
 
   % evaluating break critereas
   switch (breakCriteria)
