@@ -16,8 +16,8 @@ secondSelectionMode = 'universal'; %%used just when selection is 'mix'
 replacementMode = 'elite';
 secondReplacementMode = 'universal';
 
-breakCriteria = 'maxIt';
-breakVal = 1000;
+breakCriteria = 'content';
+breakVal = 100;
 
 replacementStrategy = 3;
 
@@ -26,13 +26,10 @@ mutPoss = 0.2;
 mutChange = 0.1;
 
 breakCriteriaReached = 0;
+numContBreak = 10;
 
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
-
-%for i=1:individuals 
-% test{i} = testNet(W{i}, training, expected, 'tangente', 1);
-%end
 
 % Loop that governs the evolution
 shg;
@@ -53,7 +50,7 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (3)
-      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, E);
+      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, E, replacementMode, secondReplacementMode);
       clear('W');
       W = W_new;
   end
@@ -62,7 +59,7 @@ while (~breakCriteriaReached)
 	% NOTE: Maybe we should put this part in replacementX since it probably
 	% needs to be calculated in replacement2 and replacement3
 	for i=1:individualsAmount
-	E(i) = fitness(W{i}, training, expected, gName, capas);
+		E(i) = fitness(W{i}, training, expected, gName, capas);
 	end
 
   % Plotting the best individual and the mean
@@ -86,6 +83,7 @@ while (~breakCriteriaReached)
 		case 'structure'
 		  ;
 		case 'content'
+			breakCriteriaReached = ContentBreak(maxE, iteration, numContBreak);
 		  ;
 		case 'surrounding'
 		  ;
@@ -98,4 +96,16 @@ while (~breakCriteriaReached)
     end
   end
 
+end
+
+function hasToBreak = ContentBreak(maxE, iteration, numContBreak)
+	i=numContBreak;
+	hasToBreak=1;
+	while(i!=0)
+		if(maxE(iteration-i)!=maxE(iteration-i+1))
+			hasToBreak = 0;
+			break;
+		end
+		i=i-1;
+	end
 end
