@@ -6,17 +6,20 @@ nodes1 = 4;
 nodes2 = 2;
 trainingAmount = 200;
 
-selectionMode = 'universal';
-selectionAmount = 7;
+selectionMode = 'elite';
+selectionAmount = 2;
 m = 2;
 t = 0.5; %% between 0 and 1!
 n1= 1;
-secondSelectionMode = 'probTournament';
+secondSelectionMode = 'universal'; %%used just when selection is 'mix'
+
+replacementMode = 'elite';
+secondReplacementMode = 'universal';
 
 breakCriteria = 'maxIt';
-breakVal = 100;
+breakVal = 1000;
 
-replacementStrategy = 2;
+replacementStrategy = 3;
 
 notUniformMutation = 0;
 mutPoss = 0.2;
@@ -46,11 +49,11 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (2)
-      W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, E, m, selectionAmount);
+      W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, E, m, selectionAmount, n1, secondSelectionMode, replacementMode, secondReplacementMode);
       clear('W');
       W = W_new;
     case (3)
-      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, selectionAmount, training, expected, gName, capas);
+      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, E);
       clear('W');
       W = W_new;
   end
