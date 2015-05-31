@@ -1,6 +1,26 @@
-function breakCriteriaReached = breakCriteria(maxE, iteration, numContBreak, F, breakValFTol)
-	breakCriteriaReached = mod(ContentBreak(maxE, iteration, numContBreak)+ ETol(F, breakValFTol),2);
+function breakCriteriaReached = breakCriteria(maxE, iteration, numContBreak, F, breakValFTol, iteration, breakValIt)
+	breakCriteriaReached = mod(ContentBreak(maxE, iteration, numContBreak)+ ETol(F, breakValFTol)+ maxIterations(iteration, breakValIt),2);
 end
+
+% leaving this here if we want to change breakCriteria()
+% evaluating break critereas
+% switch (breakCriteria)
+% 	case 'maxIt'
+% 	  if (iteration > breakVal)
+% 	    breakCriteriaReached = 1;
+% 	  end
+% 	case 'ETol'
+% 	  if (max(E) > breakVal)
+% 	    breakCriteriaReached = 1;
+% 	  end
+% 	case 'structure'
+% 	  ;
+% 	case 'content'
+% 		breakCriteriaReached = ContentBreak(maxE, iteration, numContBreak);
+% 	  ;
+% 	case 'surrounding'
+% 	  ;
+% end
 
 function hasToBreak = ContentBreak(maxF, iteration, numContBreak)
 	i=numContBreak;

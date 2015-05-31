@@ -27,7 +27,8 @@ mutChange = 0.1;
 
 breakCriteriaReached = 0;
 numContBreak = 10;
-breakValFTol = 2;
+breakValFTol = 100;
+breakValIt = 100;
 
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
@@ -71,26 +72,7 @@ while (~breakCriteriaReached)
   plot(itVec, medF, itVec, maxF); 
   drawnow;
 
-	% evaluating break critereas
-	% switch (breakCriteria)
-	% 	case 'maxIt'
-	% 	  if (iteration > breakVal)
-	% 	    breakCriteriaReached = 1;
-	% 	  end
-	% 	case 'ETol'
-	% 	  if (max(E) > breakVal)
-	% 	    breakCriteriaReached = 1;
-	% 	  end
-	% 	case 'structure'
-	% 	  ;
-	% 	case 'content'
-	% 		breakCriteriaReached = ContentBreak(maxE, iteration, numContBreak);
-	% 	  ;
-	% 	case 'surrounding'
-	% 	  ;
-	% end
-
-	breakCriteriaReached = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol);
+	breakCriteriaReached = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol, iteration, breakValIt);
 
   %Changing mutPoss if using Not Uniform Mutation
   if (notUniformMutation)
