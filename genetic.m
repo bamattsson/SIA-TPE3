@@ -16,7 +16,7 @@ secondSelectionMode = 'universal'; %%used just when selection is 'mix'
 replacementMode = 'elite';
 secondReplacementMode = 'universal';
 
-breakCriteria = 'content';
+% breakCriteria = 'content';
 breakVal = 100;
 
 replacementStrategy = 3;
@@ -27,6 +27,7 @@ mutChange = 0.1;
 
 breakCriteriaReached = 0;
 numContBreak = 10;
+breakValFTol = 2;
 
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
@@ -37,20 +38,20 @@ iteration = 0;
 while (~breakCriteriaReached)
 	iteration = iteration + 1;
 	for i=1:individualsAmount
-	  E(i) = fitness(W{i}, training, expected, gName, capas);
+	  F(i) = fitness(W{i}, training, expected, gName, capas);
 	end
   % Part that does the replacement
   switch (replacementStrategy)
     case (1)
-      W_new = replacement1(W, individualsAmount, mutPoss, mutChange, selectionMode, m ,t, E, n1, secondSelectionMode);
+      W_new = replacement1(W, individualsAmount, mutPoss, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode);
       clear('W');
       W = W_new;
     case (2)
-      W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, E, m, selectionAmount, n1, secondSelectionMode, replacementMode, secondReplacementMode);
+      W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementMode, secondReplacementMode);
       clear('W');
       W = W_new;
     case (3)
-      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, E, replacementMode, secondReplacementMode);
+      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementMode, secondReplacementMode);
       clear('W');
       W = W_new;
   end
@@ -59,35 +60,37 @@ while (~breakCriteriaReached)
 	% NOTE: Maybe we should put this part in replacementX since it probably
 	% needs to be calculated in replacement2 and replacement3
 	for i=1:individualsAmount
-		E(i) = fitness(W{i}, training, expected, gName, capas);
+		F(i) = fitness(W{i}, training, expected, gName, capas);
 	end
 
   % Plotting the best individual and the mean
-  medE(iteration) = mean(E);
-  maxE(iteration) = max(E);
-  max(E);
+  medF(iteration) = mean(F);
+  maxF(iteration) = max(F);
+  max(F);
   itVec(iteration) = iteration;
-  plot(itVec, medE, itVec, maxE); 
+  plot(itVec, medF, itVec, maxF); 
   drawnow;
 
 	% evaluating break critereas
-	switch (breakCriteria)
-		case 'maxIt'
-		  if (iteration > breakVal)
-		    breakCriteriaReached = 1;
-		  end
-		case 'ETol'
-		  if (max(E) > breakVal)
-		    breakCriteriaReached = 1;
-		  end
-		case 'structure'
-		  ;
-		case 'content'
-			breakCriteriaReached = ContentBreak(maxE, iteration, numContBreak);
-		  ;
-		case 'surrounding'
-		  ;
-	end
+	% switch (breakCriteria)
+	% 	case 'maxIt'
+	% 	  if (iteration > breakVal)
+	% 	    breakCriteriaReached = 1;
+	% 	  end
+	% 	case 'ETol'
+	% 	  if (max(E) > breakVal)
+	% 	    breakCriteriaReached = 1;
+	% 	  end
+	% 	case 'structure'
+	% 	  ;
+	% 	case 'content'
+	% 		breakCriteriaReached = ContentBreak(maxE, iteration, numContBreak);
+	% 	  ;
+	% 	case 'surrounding'
+	% 	  ;
+	% end
+
+	breakCriteriaReached = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol);
 
   %Changing mutPoss if using Not Uniform Mutation
   if (notUniformMutation)
@@ -98,14 +101,3 @@ while (~breakCriteriaReached)
 
 end
 
-function hasToBreak = ContentBreak(maxE, iteration, numContBreak)
-	i=numContBreak;
-	hasToBreak=1;
-	while(i!=0)
-		if(maxE(iteration-i)!=maxE(iteration-i+1))
-			hasToBreak = 0;
-			break;
-		end
-		i=i-1;
-	end
-end
