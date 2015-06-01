@@ -8,7 +8,7 @@ function [new_generation, numSurvivors] = replacement3(individuals, k, pm, chang
 	allIndividuals = [individuals, children];
 	allIndividualsAmount = size(allIndividuals,2);
 
-	%% back-propagation (antes del calculo fitness)
+	% back-propagation (antes del calculo fitness)
 	if(hasBackPropagation)
 		for i=1:allIndividualsAmount
 		  allIndividuals{i} = trainNet(allIndividuals{i}, 100, 2, 100*50, 7, 'tangente', -1, -1, -1, 0, 0);
@@ -29,7 +29,7 @@ function numSurv = countSurvivors(gen1, gen2)
 	for i=1:size(gen2,2)
 		done=0;
 		for j=1:size(gen1,2)
-			if((gen2{i}{1}==gen1{j}{1}) && done!=1)
+			if (isequal(gen2{i}{1},gen1{j}{1}) && (done ~=1))
 				numSurv=numSurv+1;
 				done=1;
 			end

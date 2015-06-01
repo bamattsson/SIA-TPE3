@@ -13,8 +13,8 @@ function hasToBreak = ContentBreak(maxF, iteration, numContBreak)
 	hasToBreak = 0;
 	if(iteration>numContBreak)
 	hasToBreak = 1;
-		while(i!=0)
-			if(maxF(iteration-i)!=maxF(iteration-i+1))
+		while(i~=0)
+			if(maxF(iteration-i)~=maxF(iteration-i+1))
 				hasToBreak = 0;
 				break;
 			end

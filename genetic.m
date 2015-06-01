@@ -54,7 +54,7 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (2)
-    	%% selection amount = k, chequear esto
+    	% selection amount = k, chequear esto
       W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementMode, secondReplacementMode);
       clear('W');
       W = W_new;
