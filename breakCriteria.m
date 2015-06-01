@@ -1,26 +1,12 @@
-function breakCriteriaReached = breakCriteria(maxE, iteration, numContBreak, F, breakValFTol, iteration, breakValIt)
-	breakCriteriaReached = mod(ContentBreak(maxE, iteration, numContBreak)+ ETol(F, breakValFTol)+ maxIterations(iteration, breakValIt),2);
+function [breakCriteriaReached, iterationsStrc] = breakCriteria(maxE, iteration, numContBreak, F, breakValFTol, breakValIt, numSurvivors, sizeGeneration, breakTolStruct, iterationsStrc, numItStrucTol)
+	aux = ContentBreak(maxE, iteration, numContBreak)+ FTol(F, breakValFTol)+ maxIterations(iteration, breakValIt);
+	[aux2 iterationsStrc] = StructureBreak(numSurvivors, sizeGeneration, breakTolStruct, iterationsStrc, numItStrucTol);
+	if(aux+aux2>=1)
+		breakCriteriaReached=1;
+	else
+		breakCriteriaReached=0;
+	end
 end
-
-% leaving this here if we want to change breakCriteria()
-% evaluating break critereas
-% switch (breakCriteria)
-% 	case 'maxIt'
-% 	  if (iteration > breakVal)
-% 	    breakCriteriaReached = 1;
-% 	  end
-% 	case 'ETol'
-% 	  if (max(E) > breakVal)
-% 	    breakCriteriaReached = 1;
-% 	  end
-% 	case 'structure'
-% 	  ;
-% 	case 'content'
-% 		breakCriteriaReached = ContentBreak(maxE, iteration, numContBreak);
-% 	  ;
-% 	case 'surrounding'
-% 	  ;
-% end
 
 function hasToBreak = ContentBreak(maxF, iteration, numContBreak)
 	i=numContBreak;
@@ -35,12 +21,16 @@ function hasToBreak = ContentBreak(maxF, iteration, numContBreak)
 			i = i-1;
 		end
 	end
+	if(hasToBreak)
+		disp('Breaking: Content Break');
+	end
 end
 
-function hasToBreak = ETol(F, breakValFTol)
+function hasToBreak = FTol(F, breakValFTol)
 	hasToBreak=0;
 	if (max(F) > breakValFTol)
 	    hasToBreak = 1;
+	    disp('Breaking: Optimal Fitness Reached');
 	end
 end
 
@@ -48,5 +38,19 @@ function hasToBreak = maxIterations(iteration, breakValIt)
 	hasToBreak=0;
 	if (iteration > breakValIt)
 	    hasToBreak = 1;
+	    disp('Breaking: Max Iterations Reached');
+	end
+end
+
+function [hasToBreak, iterationsStrc] = StructureBreak(numSurvivors, sizeGeneration, maxTolerance, iterationsStrc, numItStrucTol)
+	hasToBreak = 0;
+	if((numSurvivors/sizeGeneration)>maxTolerance)
+		iterationsStrc=iterationsStrc+1;
+		if(iterationsStrc>numItStrucTol)
+			hasToBreak=1;
+			disp('Breaking: Structure Break');
+		end
+	else
+		iterationsStrc=0;
 	end
 end

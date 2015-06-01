@@ -7,7 +7,7 @@ nodes2 = 2;
 trainingAmount = 200;
 
 selectionMode = 'elite';
-selectionAmount = 2;
+selectionAmount = 7;
 m = 2;
 t = 0.5; %% between 0 and 1!
 n1= 1;
@@ -29,6 +29,10 @@ breakCriteriaReached = 0;
 numContBreak = 10;
 breakValFTol = 100;
 breakValIt = 100;
+breakTolStruct = 0.9; % between 0 and 1
+numSurvivors=0; % inicializacion, esto no va a archivo de conf
+iterationsStrc=0; % counter for structure break
+numItStrucTol = 10; %number of generations compared for structure break
 
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
@@ -48,11 +52,12 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (2)
+    	%% selection amount = k, chequear esto
       W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementMode, secondReplacementMode);
       clear('W');
       W = W_new;
     case (3)
-      W_new = replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementMode, secondReplacementMode);
+      [W_new numSurvivors]= replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementMode, secondReplacementMode);
       clear('W');
       W = W_new;
   end
@@ -72,7 +77,7 @@ while (~breakCriteriaReached)
   plot(itVec, medF, itVec, maxF); 
   drawnow;
 
-	breakCriteriaReached = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol, iteration, breakValIt);
+	[breakCriteriaReached, iterationsStrc] = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol, breakValIt, numSurvivors, size(W,2), breakTolStruct,iterationsStrc, numItStrucTol);
 
   %Changing mutPoss if using Not Uniform Mutation
   if (notUniformMutation)
@@ -82,4 +87,3 @@ while (~breakCriteriaReached)
   end
 
 end
-
