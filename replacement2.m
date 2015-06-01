@@ -9,4 +9,5 @@ function new_generation = replacement2(individuals, k, possibility, change, sele
 	
 	% uno los N-k con los nuevos hijos
 	new_generation = [children, survivers];
+	
 end

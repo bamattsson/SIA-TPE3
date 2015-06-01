@@ -33,8 +33,9 @@ selectionMode = getSelectionMode(values(6,2));
 replacementCriteria = getSelectionMode(values(7,2));
 secondSelectionMode = getSelectionMode(values(8,2));
 secondReplacementMode = getSelectionMode(values(9,2));
+crossMode = getCrossMode(values(10,2));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+pc=0.9;
 
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
@@ -50,7 +51,7 @@ while (~breakCriteriaReached)
   % Part that does the replacement
   switch (replacementMode)
     case (1)
-      W_new = replacement1(W, individualsAmount, mutationProbability, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode);
+      W_new = replacement1(W, individualsAmount, mutationProbability, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode, crossMode, pc);
       clear('W');
       W = W_new;
     case (2)
