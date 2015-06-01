@@ -26,25 +26,27 @@ mutPoss = 0.2;
 mutChange = 0.1;
 
 breakCriteriaReached = 0;
-numContBreak = 10;
-breakValFTol = 100;
+numContBreak = 100;
+breakValFTol = 500;
 breakValIt = 100;
 breakTolStruct = 0.9; % between 0 and 1
 numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
 numItStrucTol = 10; %number of generations compared for structure break
 
+hasBackPropagation = 0;
+
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
 
+for i=1:individualsAmount
+  F(i) = fitness(W{i}, training, expected, gName, capas);
+end
 % Loop that governs the evolution
 shg;
 iteration = 0;
 while (~breakCriteriaReached)
 	iteration = iteration + 1;
-	for i=1:individualsAmount
-	  F(i) = fitness(W{i}, training, expected, gName, capas);
-	end
   % Part that does the replacement
   switch (replacementStrategy)
     case (1)
@@ -57,7 +59,7 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (3)
-      [W_new numSurvivors]= replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementMode, secondReplacementMode);
+      [W_new numSurvivors]= replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementMode, secondReplacementMode, hasBackPropagation);
       clear('W');
       W = W_new;
   end
@@ -65,6 +67,12 @@ while (~breakCriteriaReached)
 	% Evaluates the new individuals
 	% NOTE: Maybe we should put this part in replacementX since it probably
 	% needs to be calculated in replacement2 and replacement3
+	if(hasBackPropagation)
+		for i=1:individualsAmount
+	  	W{i} = trainNet(W{i}, 100, 2, 100*50, 7, 'tangente', -1, -1, -1, 0, 0);
+		end
+	end
+
 	for i=1:individualsAmount
 		F(i) = fitness(W{i}, training, expected, gName, capas);
 	end

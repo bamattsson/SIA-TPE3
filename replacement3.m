@@ -1,6 +1,6 @@
 %pm = posibility of mutation
 
-function [new_generation, numSurvivors] = replacement3(individuals, k, pm, change, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, parentsFitness, replacementMode, secondReplacementMode)
+function [new_generation, numSurvivors] = replacement3(individuals, k, pm, change, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, parentsFitness, replacementMode, secondReplacementMode, hasBackPropagation)
 	N = size(individuals,2);
 	% selecciona k, recombina, muta y genera k hijos
 	children = replacement1(individuals, k, pm, change, selectionMode, m ,t, parentsFitness, n1, secondSelectionMode);
@@ -8,6 +8,12 @@ function [new_generation, numSurvivors] = replacement3(individuals, k, pm, chang
 	allIndividuals = [individuals, children];
 	allIndividualsAmount = size(allIndividuals,2);
 
+	%% back-propagation (antes del calculo fitness)
+	if(hasBackPropagation)
+		for i=1:allIndividualsAmount
+		  allIndividuals{i} = trainNet(allIndividuals{i}, 100, 2, 100*50, 7, 'tangente', -1, -1, -1, 0, 0);
+		end
+	end
 	% calcula el fitness de todos
 	for i=1:allIndividualsAmount
     	E(i) = fitness(allIndividuals{i}, training, expected, gName, capas);
