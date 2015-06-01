@@ -19,7 +19,7 @@ secondReplacementMode = 'universal';
 % breakCriteria = 'content';
 breakVal = 100;
 
-replacementStrategy = 3;
+replacementStrategy = 1;
 
 notUniformMutation = 0;
 mutPoss = 0.2;
@@ -36,6 +36,9 @@ numItStrucTol = 10; %number of generations compared for structure break
 
 hasBackPropagation = 0;
 
+crossMode='uniform';
+pc=0.9;
+
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
 
@@ -50,7 +53,7 @@ while (~breakCriteriaReached)
   % Part that does the replacement
   switch (replacementStrategy)
     case (1)
-      W_new = replacement1(W, individualsAmount, mutPoss, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode);
+      W_new = replacement1(W, individualsAmount, mutPoss, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode, crossMode, pc);
       clear('W');
       W = W_new;
     case (2)

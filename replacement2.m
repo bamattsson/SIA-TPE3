@@ -1,4 +1,5 @@
 function new_generation = replacement2(individuals, k, possibility, change, selectionMode, parentsFitness, m, t, n1, secondSelectionMode, replacementMode, secondReplacementMode)
+	
 	individualsAmount = size(individuals,2);
 	
 	% selecciona k, recombina, muta y genera k hijos
@@ -9,4 +10,5 @@ function new_generation = replacement2(individuals, k, possibility, change, sele
 	
 	% uno los N-k con los nuevos hijos
 	new_generation = [children, survivers];
+	
 end
