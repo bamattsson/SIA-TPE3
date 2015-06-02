@@ -1,40 +1,41 @@
 clear; clf;
-individualsAmount = 10;
 gName = 'tangente';
 capas = 2;
 nodes1 = 4;
 nodes2 = 2;
 trainingAmount = 200;
 
-selectionMode = 'elite';
-selectionAmount = 7;
 m = 2;
 t = 0.5; %% between 0 and 1!
 n1= 1;
-secondSelectionMode = 'universal'; %%used just when selection is 'mix'
-
-replacementMode = 'elite';
-secondReplacementMode = 'universal';
-
-% breakCriteria = 'content';
-breakVal = 100;
-
-replacementStrategy = 3;
 
 notUniformMutation = 0;
-mutPoss = 0.2;
 mutChange = 0.1;
 
 breakCriteriaReached = 0;
 numContBreak = 100;
 breakValFTol = 500;
-breakValIt = 100;
 breakTolStruct = 0.9; % between 0 and 1
 numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
 numItStrucTol = 10; %number of generations compared for structure break
 
 hasBackPropagation = 0;
+
+%-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
+values = csvread('./csv/init.csv');
+replacementMode = values(1,2);
+individualsAmount = values(2,2);
+selectionAmount = values(3,2);
+maxGenerations = values(4,2);
+mutationProbability = values(5,2);
+selectionMode = getSelectionMode(values(6,2));
+replacementCriteria = getSelectionMode(values(7,2));
+secondSelectionMode = getSelectionMode(values(8,2));
+secondReplacementMode = getSelectionMode(values(9,2));
+crossMode = getCrossMode(values(10,2));
+%-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+pc=0.9;
 
 [training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
@@ -48,18 +49,18 @@ iteration = 0;
 while (~breakCriteriaReached)
 	iteration = iteration + 1;
   % Part that does the replacement
-  switch (replacementStrategy)
+  switch (replacementMode)
     case (1)
-      W_new = replacement1(W, individualsAmount, mutPoss, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode);
+      W_new = replacement1(W, individualsAmount, mutationProbability, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode, crossMode, pc);
       clear('W');
       W = W_new;
     case (2)
     	% selection amount = k, chequear esto
-      W_new = replacement2(W, selectionAmount, mutPoss, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementMode, secondReplacementMode);
+      W_new = replacement2(W, selectionAmount, mutationProbability, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementCriteria, secondReplacementMode);
       clear('W');
       W = W_new;
     case (3)
-      [W_new numSurvivors]= replacement3(W, selectionAmount, mutPoss, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementMode, secondReplacementMode, hasBackPropagation);
+      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, hasBackPropagation);
       clear('W');
       W = W_new;
   end
@@ -97,12 +98,12 @@ while (~breakCriteriaReached)
   drawnow;
   
 
-	[breakCriteriaReached, iterationsStrc] = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol, breakValIt, numSurvivors, size(W,2), breakTolStruct,iterationsStrc, numItStrucTol);
+	[breakCriteriaReached, iterationsStrc] = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol, maxGenerations, numSurvivors, size(W,2), breakTolStruct,iterationsStrc, numItStrucTol);
 
-  %Changing mutPoss if using Not Uniform Mutation
+  %Changing mutationProbability if using Not Uniform Mutation
   if (notUniformMutation)
-    if (mutPoss > 0.01);
-      mutPoss = mutPoss*0.95;
+    if (mutationProbability > 0.01);
+      mutationProbability = mutationProbability*0.95;
     end
   end
 

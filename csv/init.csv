@@ -1,0 +1,10 @@
+replacementMode, 1
+individualsAmount, 10
+selectionAmount, 7
+maxGenerations, 100
+mutationProbability, 0.2
+selectionMode, 1
+replacementCriteria, 1
+secondSelectionMode, 5
+secondReplacementMode, 5
+crossMode, 2
