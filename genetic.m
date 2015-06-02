@@ -75,15 +75,27 @@ while (~breakCriteriaReached)
 
 	for i=1:individualsAmount
 		F(i) = fitness(W{i}, training, expected, gName, capas);
-	end
+    end
+    
 
   % Plotting the best individual and the mean
   medF(iteration) = mean(F);
-  maxF(iteration) = max(F);
-  max(F);
+  [maxF(iteration), max_index] = max(F);
   itVec(iteration) = iteration;
-  plot(itVec, medF, itVec, maxF); 
+  Out = zeros(size(training,1),1);
+  for j=1:size(training,1)
+      [h_1, V_1] = calculateLayer(W{max_index}{1}, [-1; training(j)], gName);
+      [h_2, V_2] = calculateLayer(W{max_index}{2}, V_1, gName);
+      [h_3, o] = calculateLayer(W{max_index}{3}, V_2, 'lineal');
+      Out(j) = o(2);
+  end
+   subplot(1,2,2);title('Mejor individuo');
+   plot(training',Out); hold on;
+   plot(training',expected,'r*'); hold off; shg;  
+  subplot(1,2,1);title('Cambio en el error');
+  plot(itVec, medF, itVec, maxF);
   drawnow;
+  
 
 	[breakCriteriaReached, iterationsStrc] = breakCriteria(maxF, iteration,numContBreak, F, breakValFTol, breakValIt, numSurvivors, size(W,2), breakTolStruct,iterationsStrc, numItStrucTol);
 

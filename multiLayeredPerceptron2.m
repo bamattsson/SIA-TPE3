@@ -77,7 +77,7 @@ for i = 1:maxIt
                 end
             end
         end
-        % Output. Both to command-line and to screen.
+%        Output. Both to command-line and to screen.
         if (mod(i,10*trainingAmount) == 0)
             Out = zeros(size(training,1),1);
             for j=1:size(training,1)
@@ -85,13 +85,14 @@ for i = 1:maxIt
                 [h_2, V_2] = calculateLayer(W_2, V_1, gName);
                 [h_3, o] = calculateLayer(W_3, V_2, 'lineal');
                 Out(j) = o(2);
-                out=Out;
             end
-            % subplot(1,2,1);title('error cuadrático medio'); plot(dif);
-            % subplot(1,2,2);title('aprendizaje');
-            % plot(training(:,2)',Out); hold on;
-            % plot(training(:,2)',expected,'r*'); hold off; shg;
-        end
+            
+            subplot(1,2,1);title('error cuadrático medio'); plot(dif);
+            subplot(1,2,2);title('aprendizaje');
+            plot(training(:,2)',Out); hold on;
+            plot(training(:,2)',expected,'r*'); hold off; shg;
+            drawnow;
+       end
         
         % Break if error is smaller than tollerance
         if (E < ETol)
