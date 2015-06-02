@@ -90,7 +90,7 @@ while (~breakCriteriaReached)
       [h_3, o] = calculateLayer(W{max_index}{3}, V_2, 'lineal');
       Out(j) = o(2);
   end
-  
+
   subplot(1,2,2);
   plot(training',Out); 
   title('Mejor individuo');
@@ -100,6 +100,7 @@ while (~breakCriteriaReached)
   plot(training',expected,'r'); hold off; shg;  
   subplot(1,2,1);
   plot(itVec, medF, itVec, maxF);
+  legend('Fitness Promedio', 'Fitness maximo')
   title('Cambio en el error');
   xlabel('iteracion');
   ylabel('fitness');
