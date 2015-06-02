@@ -1,5 +1,4 @@
 function [individual] = vectorToCell(vec, dimension)
-
 %TODO: change if there are more layers
 
 individual{1} = zeros(dimension(1), dimension(2));

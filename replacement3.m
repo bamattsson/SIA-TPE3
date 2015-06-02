@@ -1,9 +1,9 @@
 %pm = posibility of mutation
 
-function [new_generation, numSurvivors] = replacement3(individuals, k, pm, change, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, parentsFitness, replacementCriteria, secondReplacementMode, hasBackPropagation)
+function [new_generation, numSurvivors] = replacement3(individuals, k, pm, change, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, parentsFitness, replacementCriteria, secondReplacementMode, hasBackPropagation, crossMode, pc)
 	N = size(individuals,2);
 	% selecciona k, recombina, muta y genera k hijos
-	children = replacement1(individuals, k, pm, change, selectionMode, m ,t, parentsFitness, n1, secondSelectionMode);
+	children = replacement1(individuals, k, pm, change, selectionMode, m ,t, parentsFitness, n1, secondSelectionMode, crossMode, pc);
 	% une los nuevos hijos con la generación anterior obteniendo N+k
 	allIndividuals = [individuals, children];
 	allIndividualsAmount = size(allIndividuals,2);

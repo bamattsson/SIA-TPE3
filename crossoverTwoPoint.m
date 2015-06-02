@@ -1,8 +1,5 @@
 function sons = crossoverTwoPoint(parents)
-	disp(parents);
 	totalPositions = size(parents{1},2);
-	disp('totalPositions');
-	disp(totalPositions);
 	r1 = ceil(rand()*totalPositions);
 	r2 = ceil(rand()*totalPositions);
 	if (r2 < r1)

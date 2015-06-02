@@ -7,7 +7,7 @@ trainingAmount = 200;
 
 m = 2;
 t = 0.5; %% between 0 and 1!
-n1= 1;
+n1= 3;
 
 notUniformMutation = 0;
 mutChange = 0.1;
@@ -18,11 +18,12 @@ breakValFTol = 500;
 breakTolStruct = 0.9; % between 0 and 1
 numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
-numItStrucTol = 10; %number of generations compared for structure break
+numItStrucTol = 20; %number of generations compared for structure break
 
 hasBackPropagation = 1;
 
 %-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
+<<<<<<< HEAD
 values = csvread('./csv/init.csv');
 replacementMode = values(1,2);
 individualsAmount = values(2,2);
@@ -34,10 +35,23 @@ replacementCriteria = getSelectionMode(values(7,2));
 secondSelectionMode = getSecondSelectionMode(values(8,2));
 secondReplacementMode = getSecondSelectionMode(values(9,2));
 crossMode = getCrossMode(values(10,2));
+=======
+values = csvread('./csv/init.csv',0,1);
+replacementMode = values(1);
+individualsAmount = values(2);
+selectionAmount = values(3);
+maxGenerations = values(4);
+mutationProbability = values(5);
+selectionMode = getSelectionMode(values(6));
+replacementCriteria = getSelectionMode(values(7));
+secondSelectionMode = getSelectionMode(values(8));
+secondReplacementMode = getSelectionMode(values(9));
+crossMode = getCrossMode(values(10));
+>>>>>>> 2fb262833fdda5d0cf5790305ac44b0fb3eb74ab
 %-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pc=0.9;
 
-[training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
+[training, expected] = generateTrainingTPfunction(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
 
 for i=1:individualsAmount
@@ -56,11 +70,11 @@ while (~breakCriteriaReached)
       W = W_new;
     case (2)
     	% selection amount = k, chequear esto
-      W_new = replacement2(W, selectionAmount, mutationProbability, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementCriteria, secondReplacementMode);
+      W_new = replacement2(W, selectionAmount, mutationProbability, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementCriteria, secondReplacementMode, crossMode, pc);
       clear('W');
       W = W_new;
     case (3)
-      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, hasBackPropagation);
+      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, hasBackPropagation, crossMode, pc);
       clear('W');
       W = W_new;
   end
@@ -90,11 +104,20 @@ while (~breakCriteriaReached)
       [h_3, o] = calculateLayer(W{max_index}{3}, V_2, 'lineal');
       Out(j) = o(2);
   end
-   subplot(1,2,2);title('Mejor individuo');
-   plot(training',Out); hold on;
-   plot(training',expected,'r*'); hold off; shg;  
-  subplot(1,2,1);title('Cambio en el error');
+
+  subplot(1,2,2);
+  plot(training',Out); 
+  title('Mejor individuo');
+  xlabel('x');
+  ylabel('y');
+  hold on;
+  plot(training',expected,'r'); hold off; shg;  
+  subplot(1,2,1);
   plot(itVec, medF, itVec, maxF);
+  legend('Fitness Promedio', 'Fitness maximo')
+  title('Cambio en el error');
+  xlabel('iteracion');
+  ylabel('fitness');
   drawnow;
   
 
@@ -106,5 +129,4 @@ while (~breakCriteriaReached)
       mutationProbability = mutationProbability*0.95;
     end
   end
-
 end

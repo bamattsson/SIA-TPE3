@@ -87,11 +87,19 @@ for i = 1:maxIt
                 Out(j) = o(2);
             end
             
+<<<<<<< HEAD
             %subplot(1,2,1);title('error cuadrático medio'); plot(dif);
             %subplot(1,2,2);title('aprendizaje');
             %plot(training(:,2)',Out); hold on;
             %plot(training(:,2)',expected,'r*'); hold off; shg;
             %drawnow;
+=======
+            % subplot(1,2,1);title('error cuadrático medio'); plot(dif);
+            % subplot(1,2,2);title('aprendizaje');
+            % plot(training(:,2)',Out); hold on;
+            % plot(training(:,2)',expected,'r*'); hold off; shg;
+            % drawnow;
+>>>>>>> 2fb262833fdda5d0cf5790305ac44b0fb3eb74ab
        end
         
         % Break if error is smaller than tollerance
