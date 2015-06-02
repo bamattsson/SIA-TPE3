@@ -1,78 +1,78 @@
-# SIA-TPE2
+# SIA-TPE4
 
-Para leer los archivos csv de pesos fijos:
-Entrar a octave, correr la siguiente linea
+##Instrucciones para ejecutar
 
-x = csvread(filename)
+En octave, ejecutar el archivo **genetic.m**.
 
-donde por ejemplo filename es 'W\_1\_neurons\_1\_15.csv'
-con las comillas incluidas.
-Asi se obtiene x, que es la matriz de pesos.
+###Parámetros modificables
 
-Los nombres de los archivos csv indican a que porcion
-de los pesos corresponden, si es W\_1 significa desde
-el input hasta la primer capa oculta, y asi siguiendo.
-Despues tienen la palabra neurons, y despues sigue
-la cantidad de neuronas de la capa de abajo, seguido
-de la cantidad de nueronas de la capa de arriba.
+Se pueden modificar varios parámetros para correr el algoritmo genético, para ello se debe modificar el archivo */csv/init.csv*
 
-##Instrucciones para correr con una capa oculta##
-En octave, si no existen los archivos de la cantidad de neuronas que se quiere, generarlos:
+Este archivo contiene los valores de las variables que se quieren modificar en formato csv.
+Las variables son:
 
-weight1 = weightGenerator(inputAmount, outputAmount);
-weight2 = weightGenerator(inputAmount, outputAmount);
+**replacementMode**: Se trata del método de reemplazo
 
-Por ejemplo, para 15 neuronas en la capa oculta:
+	1. Método de reemplazo 1
+	2. Método de reemplazo 2
+	3. Método de reemplazo 3
 
-weight1 = weightGenerator(1, 15);
-weight2 = weightGenerator(15, 1);
+**individualsAmount**: Se trata del tamaño de la población
 
-Si se quiere guardarlos:
+**selectionAmount**: Se trata del número de progenitores seleccionados (para los métodos de reemplazo 2 y 3)
 
-csvwrite('W_1_neurons_1_15.csv',weight1);
-csvwrite('W_2_neurons_15_1.csv',weight2);
+**maxGenerations**: Número máximo de generaciones
 
-Asignarlos a una celda
+**mutationProbability**: Probabilidad de mutación
 
-A{1} = weight1;
-A{2} = weight2;
+**selectionMode**: Se trata del criterio de selección
 
-Correr la funcion trainNet para entrenar la red con esos pesos
+	1. Elite
+	2. Torneo determinístico
+	3. Torneo probabilístico
+	4. Ruleta
+	5. Universal
+	6. Boltzman
+	7. Mixto
 
-[W] = trainNet(A, trainingAmount, hiddenAmount, maxIt, ETol, gName, saturationControl, hasAdaptativeEta, hasMomentum, a_etha, b_etha)
+**replacementCriteria**: Se trata del criterio de reemplazo
 
-donde A es la celda anterior,
-trainingAmount es la cantidad de puntos deseados en el conjunto de entrenamiento,
-hiddenAmount la cantidad de capas ocultas,
-maxIt la maxima cantidad de iteraciones que se quiere correr en caso de que el error no baje a valores cercanos a cero,
-ETol el error de tolerancia por el cual la función retornará cuando llegue a ese valor,
-gName el nombre de la función de activación que se quiere usar, puede ser 'exponencial' o 'tangente',
-saturationControl, si se quiere activar el control de saturación se debe poner un número distinto de -1 que represente cada cuantas épocas se checkea que no haya saturación, si no se quiere se debe poner -1,
-hasAdaptativeEta, si se quiere que el algoritmo use eta adaptativo poner un número distinto de -1,
-hasMomentum, si se quiere que el algoritmo use momentum poner un número distinto de -1,
-a_etha, el número que se le suma a eta cuando el error disminuye,
-b_etha, el número al cual se multiplica por eta cuando el error aumenta.
+	1. Elite
+	2. Torneo determinístico
+	3. Torneo probabilístico
+	4. Ruleta
+	5. Universal
+	6. Boltzman
+	7. Mixto
 
-Esta función devuelve [W], siendo W los pesos que quedan en la red luego de ser entrenada.
+**secondSelectionMode**: Se trata del segundo criterio de selección, se utiliza cuando el primer criterio de selección es Mixto.
 
-Si se quiere probar esa red con esos pesos, hay que primero generar el conjunto de testeo de la siguiente manera:
+	1. Ruleta
+	2. Universal
 
-[tests, expected_test] = generateTestFunction(amount);
+**secondReplacementCriteria**: Se trata del segundo criterio de reemplazo, se utiliza cuando el primer criterio de selección es Mixto.
 
-siendo amount la cantidad de elementos que se quieren en el conjunto.
-Despues correr la funcion testNet
+	1. Ruleta
+	2. Universal	
 
-[Out] = testNet(W, tests, expected_test, gName, hiddenAmount)
+**crossMode**: Se trata del método de cruce
 
-Siendo W, el W obtenido anteriormente, tests y expected_test lo generado anteriormente, gName debe ser el mismo nombre que utilizó para entrenar la red, y hiddenAmount la misma cantidad de capas ocultas que se usó para entrenar la red.
+	1. Clásico (un solo punto)
+	2. Cruce de dos puntos
+	3. Cruce uniforme
+	4. Cruce anular
 
-##Instrucciones para correr con dos capas ocultas##
+*Ejemplo:*
 
-Las instrucciones son las mismas que con una capa oculta, salvo que deben generarse tres matrices de pesos y asignar
+    replacementMode, 1
+    individualsAmount, 10
+    selectionAmount, 7
+    maxGenerations, 100
+    mutationProbability, 0.2
+    selectionMode, 1
+    replacementCriteria, 1
+    secondSelectionMode, 1
+    secondReplacementCriteria, 1
+    crossMode, 4
 
-A{1} = weight1;
-A{2} = weight2;
-A{3} = weight3;
-
-y en donde diga hiddenAmount poner "2".
 

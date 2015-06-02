@@ -18,7 +18,7 @@ breakValFTol = 500;
 breakTolStruct = 0.9; % between 0 and 1
 numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
-numItStrucTol = 10; %number of generations compared for structure break
+numItStrucTol = 20; %number of generations compared for structure break
 
 hasBackPropagation = 1;
 
@@ -31,13 +31,13 @@ maxGenerations = values(4);
 mutationProbability = values(5);
 selectionMode = getSelectionMode(values(6));
 replacementCriteria = getSelectionMode(values(7));
-secondSelectionMode = getSelectionMode(values(8));
-secondReplacementMode = getSelectionMode(values(9));
+secondSelectionMode = getSecondSelectionMode(values(8));
+secondReplacementMode = getSecondSelectionMode(values(9));
 crossMode = getCrossMode(values(10));
 %-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pc=0.9;
 
-[training, expected] = generateTrainingTPfunctionChosenOnes(trainingAmount);
+[training, expected] = generateTrainingTPfunction(trainingAmount);
 W = generateIndividuals(individualsAmount, nodes1, nodes2);
 
 for i=1:individualsAmount
@@ -90,12 +90,28 @@ while (~breakCriteriaReached)
       [h_3, o] = calculateLayer(W{max_index}{3}, V_2, 'lineal');
       Out(j) = o(2);
   end
+<<<<<<< HEAD
   figure(1)
    subplot(1,2,2);title('Mejor individuo');
    plot(training',Out); hold on;
    plot(training',expected,'r*'); hold off;  
   subplot(1,2,1);title('Cambio en el error');
+=======
+
+  subplot(1,2,2);
+  plot(training',Out); 
+  title('Mejor individuo');
+  xlabel('x');
+  ylabel('y');
+  hold on;
+  plot(training',expected,'r'); hold off; shg;  
+  subplot(1,2,1);
+>>>>>>> origin/master
   plot(itVec, medF, itVec, maxF);
+  legend('Fitness Promedio', 'Fitness maximo')
+  title('Cambio en el error');
+  xlabel('iteracion');
+  ylabel('fitness');
   drawnow;
   
 
@@ -107,5 +123,4 @@ while (~breakCriteriaReached)
       mutationProbability = mutationProbability*0.95;
     end
   end
-
 end
