@@ -2,7 +2,7 @@
 
 ##Instrucciones para ejecutar
 
-En octave, ejecutar el archivo "genetic.m".
+En octave, ejecutar el archivo **genetic.m**.
 
 ###Parámetros modificables
 
