@@ -6,5 +6,5 @@ mutationProbability, 0.2
 selectionMode, 1
 replacementCriteria, 1
 secondSelectionMode, 5
-secondReplacementMode, 5
-crossMode, 2
+secondReplacementCriteria, 5
+crossMode, 4

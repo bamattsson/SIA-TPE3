@@ -20,7 +20,7 @@ numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
 numItStrucTol = 10; %number of generations compared for structure break
 
-hasBackPropagation = 0;
+hasBackPropagation = 1;
 
 %-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
 values = csvread('./csv/init.csv');
@@ -31,8 +31,8 @@ maxGenerations = values(4,2);
 mutationProbability = values(5,2);
 selectionMode = getSelectionMode(values(6,2));
 replacementCriteria = getSelectionMode(values(7,2));
-secondSelectionMode = getSelectionMode(values(8,2));
-secondReplacementMode = getSelectionMode(values(9,2));
+secondSelectionMode = getSecondSelectionMode(values(8,2));
+secondReplacementMode = getSecondSelectionMode(values(9,2));
 crossMode = getCrossMode(values(10,2));
 %-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pc=0.9;
