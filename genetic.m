@@ -49,6 +49,7 @@ iteration = 0;
 while (~breakCriteriaReached)
 	iteration = iteration + 1;
   % Part that does the replacement
+    
   switch (replacementMode)
     case (1)
       W_new = replacement1(W, individualsAmount, mutationProbability, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode, crossMode, pc);
@@ -64,19 +65,20 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
   end
-
+  
 	% Evaluates the new individuals
 	% NOTE: Maybe we should put this part in replacementX since it probably
 	% needs to be calculated in replacement2 and replacement3
 	if(hasBackPropagation)
 		for i=1:individualsAmount
-	  	W{i} = trainNet(W{i}, 200, 2, 20, 0.0001, 'tangente', -1, -1, -1, 0, 0);
+	  	W{i} = trainNet(W{i}, 200, 2, 15, 0.0001, 'tangente', -1, -1, -1, 0, 0);
 		end
 	end
 
 	for i=1:individualsAmount
 		F(i) = fitness(W{i}, training, expected, gName, capas);
     end
+      
     
 
   % Plotting the best individual and the mean
@@ -90,14 +92,8 @@ while (~breakCriteriaReached)
       [h_3, o] = calculateLayer(W{max_index}{3}, V_2, 'lineal');
       Out(j) = o(2);
   end
-<<<<<<< HEAD
-  figure(1)
-   subplot(1,2,2);title('Mejor individuo');
-   plot(training',Out); hold on;
-   plot(training',expected,'r*'); hold off;  
-  subplot(1,2,1);title('Cambio en el error');
-=======
 
+  figure(1)
   subplot(1,2,2);
   plot(training',Out); 
   title('Mejor individuo');
@@ -106,7 +102,6 @@ while (~breakCriteriaReached)
   hold on;
   plot(training',expected,'r'); hold off; shg;  
   subplot(1,2,1);
->>>>>>> origin/master
   plot(itVec, medF, itVec, maxF);
   legend('Fitness Promedio', 'Fitness maximo')
   title('Cambio en el error');
