@@ -7,7 +7,7 @@ trainingAmount = 200;
 
 m = 2;
 t = 0.5; %% between 0 and 1!
-n1= 3;
+n1= 2;
 
 notUniformMutation = 0;
 mutChange = 0.1;
@@ -20,7 +20,7 @@ numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
 numItStrucTol = 10; %number of generations compared for structure break
 
-hasBackPropagation = 0;
+hasBackPropagation = 1;
 
 %-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
 values = csvread('./csv/init.csv',0,1);
@@ -70,7 +70,7 @@ while (~breakCriteriaReached)
 	% needs to be calculated in replacement2 and replacement3
 	if(hasBackPropagation)
 		for i=1:individualsAmount
-	  	W{i} = trainNet(W{i}, 100, 2, 100*50, 7, 'tangente', -1, -1, -1, 0, 0);
+	  	W{i} = trainNet(W{i}, 200, 2, 20, 0.0001, 'tangente', -1, -1, -1, 0, 0);
 		end
 	end
 
@@ -90,6 +90,7 @@ while (~breakCriteriaReached)
       [h_3, o] = calculateLayer(W{max_index}{3}, V_2, 'lineal');
       Out(j) = o(2);
   end
+  figure(1)
    subplot(1,2,2);title('Mejor individuo');
    plot(training',Out); hold on;
    plot(training',expected,'r*'); hold off;  

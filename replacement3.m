@@ -9,11 +9,11 @@ function [new_generation, numSurvivors] = replacement3(individuals, k, pm, chang
 	allIndividualsAmount = size(allIndividuals,2);
 
 	% back-propagation (antes del calculo fitness)
-	if(hasBackPropagation)
-		for i=1:allIndividualsAmount
-		  allIndividuals{i} = trainNet(allIndividuals{i}, 100, 2, 100*50, 7, 'tangente', -1, -1, -1, 0, 0);
-		end
-	end
+% 	if(hasBackPropagation)
+% 		for i=1:allIndividualsAmount
+% 		  allIndividuals{i} = trainNet(allIndividuals{i}, 100, 2, 100*50, 7, 'tangente', -1, -1, -1, 0, 0);
+% 		end
+% 	end
 	% calcula el fitness de todos
 	for i=1:allIndividualsAmount
     	E(i) = fitness(allIndividuals{i}, training, expected, gName, capas);
