@@ -56,15 +56,15 @@ crossMode: Se trata del método de cruce
 	4: Cruce anular
 
 Ejemplo:
-replacementMode, 1
-individualsAmount, 10
-selectionAmount, 7
-maxGenerations, 100
-mutationProbability, 0.2
-selectionMode, 1
-replacementCriteria, 1
-secondSelectionMode, 1
-secondReplacementCriteria, 1
-crossMode, 4
+	replacementMode, 1
+	individualsAmount, 10
+	selectionAmount, 7
+	maxGenerations, 100
+	mutationProbability, 0.2
+	selectionMode, 1
+	replacementCriteria, 1
+	secondSelectionMode, 1
+	secondReplacementCriteria, 1
+	crossMode, 4
 
 
