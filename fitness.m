@@ -8,5 +8,5 @@ function [retFitness] = fitness(W, testing, expected, gName, capas);
 	for i=1:len
 	  E = 1/2*(test(i) - expected(i))^2 + E;
 	end
-	retFitness = 1/E; 
+	retFitness = 1/(E/len); 
 end

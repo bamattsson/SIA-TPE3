@@ -51,16 +51,16 @@ while (~breakCriteriaReached)
   % Part that does the replacement
   switch (replacementMode)
     case (1)
-      W_new = replacement1(W, individualsAmount, mutationProbability, mutChange, selectionMode, m ,t, F, n1, secondSelectionMode, crossMode, pc);
+      W_new = replacement1(W, individualsAmount, mutationProbability, mutChange, selectionMode, m ,iteration, F, n1, secondSelectionMode, crossMode, pc);
       clear('W');
       W = W_new;
     case (2)
     	% selection amount = k, chequear esto
-      W_new = replacement2(W, selectionAmount, mutationProbability, mutChange, selectionMode, F, m, selectionAmount, n1, secondSelectionMode, replacementCriteria, secondReplacementMode, crossMode, pc);
+      W_new = replacement2(W, selectionAmount, mutationProbability, mutChange, selectionMode, F, m, iteration, n1, secondSelectionMode, replacementCriteria, secondReplacementMode, crossMode, pc);
       clear('W');
       W = W_new;
     case (3)
-      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, hasBackPropagation, crossMode, pc);
+      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, iteration, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, hasBackPropagation, crossMode, pc);
       clear('W');
       W = W_new;
   end
@@ -116,3 +116,6 @@ while (~breakCriteriaReached)
     end
   end
 end
+
+% Imprimir error
+disp(1/maxF(iteration));

@@ -2,7 +2,7 @@
 % m = preSelectionAmount(deterministic tournament)
 % t = temperatura (Boltzmann)
 
-function selectIndiv = selection(individualsAmount, individuals, fitness, selectionMode, k, m, t, n1, secondSelectionMode)
+function selectIndiv = selection(individualsAmount, individuals, fitness, selectionMode, k, m, iteration, n1, secondSelectionMode)
   switch(selectionMode)
     case 'elite'
       selectIndiv = selectionElite(individualsAmount, individuals, fitness, k);
@@ -16,7 +16,7 @@ function selectIndiv = selection(individualsAmount, individuals, fitness, select
       selectIndiv = selectionRouletteUniversal(individualsAmount, individuals, fitness, k, selectionMode); 
     case 'boltzmann'
       %ver si calculamos la temperatura de acuedo a la generación o qué onda
-      selectIndiv = selectionBoltzmann(individualsAmount, individuals, fitness, k, t);
+      selectIndiv = selectionBoltzmann(individualsAmount, individuals, fitness, k, iteration);
     case 'mix'
       selectIndiv = selectionMix(individualsAmount, individuals, fitness, k, n1, secondSelectionMode);
     otherwise 
