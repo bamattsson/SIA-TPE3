@@ -18,7 +18,7 @@ breakValFTol = 250;
 breakTolStruct = 0.9; % between 0 and 1
 numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
-numItStrucTol = 20; %number of generations compared for structure break
+numItStrucTol = 7; %number of generations compared for structure break
 
 %-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
 values = csvread('./csv/init.csv',0,1);
