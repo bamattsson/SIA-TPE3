@@ -13,7 +13,7 @@ notUniformMutation = 0;
 mutChange = 0.1;
 
 breakCriteriaReached = 0;
-numContBreak = 100;
+numContBreak = 7;
 breakValFTol = 250;
 breakTolStruct = 0.9; % between 0 and 1
 numSurvivors=0; % inicializacion, esto no va a archivo de conf
