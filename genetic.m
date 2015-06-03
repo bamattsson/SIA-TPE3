@@ -14,28 +14,15 @@ mutChange = 0.1;
 
 breakCriteriaReached = 0;
 numContBreak = 100;
-breakValFTol = 500;
+breakValFTol = 250;
 breakTolStruct = 0.9; % between 0 and 1
 numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
 numItStrucTol = 20; %number of generations compared for structure break
 
-hasBackPropagation = 1;
+hasBackPropagation = 0;
 
 %-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
-<<<<<<< HEAD
-values = csvread('./csv/init.csv');
-replacementMode = values(1,2);
-individualsAmount = values(2,2);
-selectionAmount = values(3,2);
-maxGenerations = values(4,2);
-mutationProbability = values(5,2);
-selectionMode = getSelectionMode(values(6,2));
-replacementCriteria = getSelectionMode(values(7,2));
-secondSelectionMode = getSecondSelectionMode(values(8,2));
-secondReplacementMode = getSecondSelectionMode(values(9,2));
-crossMode = getCrossMode(values(10,2));
-=======
 values = csvread('./csv/init.csv',0,1);
 replacementMode = values(1);
 individualsAmount = values(2);
@@ -44,10 +31,9 @@ maxGenerations = values(4);
 mutationProbability = values(5);
 selectionMode = getSelectionMode(values(6));
 replacementCriteria = getSelectionMode(values(7));
-secondSelectionMode = getSelectionMode(values(8));
-secondReplacementMode = getSelectionMode(values(9));
+secondSelectionMode = getSecondSelectionMode(values(8));
+secondReplacementMode = getSecondSelectionMode(values(9));
 crossMode = getCrossMode(values(10));
->>>>>>> 2fb262833fdda5d0cf5790305ac44b0fb3eb74ab
 %-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pc=0.9;
 
@@ -114,7 +100,7 @@ while (~breakCriteriaReached)
   plot(training',expected,'r'); hold off; shg;  
   subplot(1,2,1);
   plot(itVec, medF, itVec, maxF);
-  legend('Fitness Promedio', 'Fitness maximo')
+  legend('Fitness Promedio', 'Fitness maximo');
   title('Cambio en el error');
   xlabel('iteracion');
   ylabel('fitness');
@@ -130,3 +116,6 @@ while (~breakCriteriaReached)
     end
   end
 end
+
+% Imprimir error
+disp(1/maxF(iteration));

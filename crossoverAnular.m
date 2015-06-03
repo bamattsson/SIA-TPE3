@@ -1,4 +1,4 @@
-function sons = crossoverAnular2(parents)
+function sons = crossoverAnular(parents)
 	totalPositions = size(parents{1},2);
 	r = ceil(rand()*totalPositions);
 	l = ceil(rand()*totalPositions/2);
