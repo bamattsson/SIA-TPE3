@@ -16,6 +16,7 @@ function [W, dif, out] = multiLayeredPerceptron2(W_1, W_2, W_3, trainingSet, gNa
     dif=0;
 
     W_1_best = W_1; W_2_best = W_2; W_3_best = W_3;
+    W{1} = W_1; W{2} = W_2; W{3} = W_3;
 
     % Adding the first column of -1 to training-set.
     training = [-1*ones(size(training,1),1) training];
@@ -38,19 +39,27 @@ for i = 1:maxIt
             [h_2, V_2] = calculateLayer(W_2, V_1, gName);
             [h_3, o] = calculateLayer(W_3, V_2, 'lineal');
             E = E + 1/2*(expected(training_number) - o(2))^2;
-
-            % Adding a new data point over error-history.
-            if(i ~= 1)
-                dif(i/trainingAmount) = E;
-            else
-                E_best = E;
-            end
+        end
+        
+        % Adding a new data point over error-history.
+        if(i ~= 1)
+            dif(i/trainingAmount + 1) = E;
+        else
+            dif(1) = E;
+            E_best = E;
+        end
+        
+        if (E < E_best)
+            W_1_best = W_1; W{1} = W_1;
+            W_2_best = W_2; W{2} = W_2;
+            W_3_best = W_3; W{3} = W_3;
+            E_best = E;
         end
 
         % Part that regulates how change_weight changes. Decrease if the
         % error doesn't decrease. Increase if error decreases many times in
         % a row.
-            if( i~=1 && mod(i/trainingAmount,25)==0)
+            if( i~=1 && mod(i/trainingAmount,20)==0)
                 if (E >= E_best && E_best ~= -1)
                     W_1 = W_1_best;
                     W_2 = W_2_best;
@@ -64,10 +73,6 @@ for i = 1:maxIt
                         end
                     end
                 elseif (E < E_best)
-                    W_1_best = W_1; W{1} = W_1;
-                    W_2_best = W_2; W{2} = W_2;
-                    W_3_best = W_3; W{3} = W_3;
-                    E_best = E;
                     if(hasAdaptativeEta~=-1)
                         alpha = 0.2;
                         decreaseCounter = decreaseCounter + 1;
@@ -90,19 +95,16 @@ for i = 1:maxIt
                 [h_3, o] = calculateLayer(W_3, V_2, 'lineal');
                 Out(j) = o(2);
             end
-%            figure(2)
-%            subplot(1,2,1);title('error cuadrático medio'); plot(dif);
-%            subplot(1,2,2);title('aprendizaje');
-%            plot(training(:,2)',Out); hold on;
-%            plot(training(:,2)',expected,'r*'); hold off;
-%            drawnow;
+           figure(2)
+           subplot(1,2,1);title('error cuadrático medio'); plot(dif);
+           subplot(1,2,2);title('aprendizaje');
+           plot(training(:,2)',Out); hold on;
+           plot(training(:,2)',expected,'r*'); hold off;
+           drawnow;
        end
         
         % Break if error is smaller than tollerance
         if (E < ETol)
-            W{1} = W_1;
-            W{2} = W_2;
-            W{3} = W_3;
             % subplot(1,2,1); title('error cuadrático medio');plot(dif);
             % subplot(1,2,2); title('aprendizaje');
             % plot(training(:,2)',Out); hold on;
@@ -197,8 +199,5 @@ for i = 1:maxIt
             end
         end
     end
-end
-W{1} = W_1_best;
-W{2} = W_2_best;
-W{3} = W_3_best;
+    end
 end

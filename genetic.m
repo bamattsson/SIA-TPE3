@@ -20,8 +20,6 @@ numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
 numItStrucTol = 20; %number of generations compared for structure break
 
-hasBackPropagation = 1;
-
 %-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
 values = csvread('./csv/init.csv',0,1);
 replacementMode = values(1);
@@ -34,6 +32,7 @@ replacementCriteria = getSelectionMode(values(7));
 secondSelectionMode = getSecondSelectionMode(values(8));
 secondReplacementMode = getSecondSelectionMode(values(9));
 crossMode = getCrossMode(values(10));
+backpropagationPoss = values(11);
 %-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pc=0.9;
 
@@ -61,7 +60,7 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (3)
-      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, hasBackPropagation, crossMode, pc);
+      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, t, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, crossMode, pc);
       clear('W');
       W = W_new;
   end
@@ -69,11 +68,11 @@ while (~breakCriteriaReached)
 	% Evaluates the new individuals
 	% NOTE: Maybe we should put this part in replacementX since it probably
 	% needs to be calculated in replacement2 and replacement3
-	if(hasBackPropagation)
-		for i=1:individualsAmount
-	  	W{i} = trainNet(W{i}, 200, 2, 15, 0.0001, 'tangente', -1, -1, -1, 0, 0);
-		end
-	end
+    for i=1:individualsAmount
+        if (rand < backpropagationPoss)
+            W{i} = trainNet(W{i}, 200, 2, 20, 0.0001, 'tangente', -1, -1, -1, 0, 0);
+        end
+    end
 
 	for i=1:individualsAmount
 		F(i) = fitness(W{i}, training, expected, gName, capas);
