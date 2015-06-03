@@ -1,11 +1,11 @@
-function children = replacement1(individuals, outputAmount, pm, change, selectionMode, m ,t, parentsFitness, n1, secondSelectionMode, crossMode, pc)
+function children = replacement1(individuals, outputAmount, pm, change, selectionMode, m ,iteration, parentsFitness, n1, secondSelectionMode, crossMode, pc)
 
   numberOfParents = size(individuals, 2);
 
   for i = 1:outputAmount
     hasCross=0;
     while(hasCross==0)
-      parents = selection(numberOfParents, individuals,parentsFitness,selectionMode, 2, m, t, n1, secondSelectionMode);
+      parents = selection(numberOfParents, individuals,parentsFitness,selectionMode, 2, m, iteration, n1, secondSelectionMode);
       [parent1 dimension] = cellToVector(parents{1});
       [parent2 dimension] = cellToVector(parents{2});
    

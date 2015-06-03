@@ -1,5 +1,5 @@
 function sons = crossoverUniform(parents)
-	probability = 0.5;
+	probability = 0.1;
 	totalPositions = size(parents{1},2);
 	for i=1:totalPositions
 		if (parents{1}(i) == parents{2}(i))

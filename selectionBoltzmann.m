@@ -1,10 +1,11 @@
 % k = number of selected individuals
 % t = number of generation
 
-function selectIndiv = selectionBoltzmann(individualsAmount, individuals, fitness, k, t)
+function selectIndiv = selectionBoltzmann(individualsAmount, individuals, fitness, k, iteration)
 	threshold = 1;
 	selectedInd = {};
 	numSelected=1;
+	t=1/iteration;
 
 	expVal = expectedValue(t, fitness, individualsAmount);
 	cumExp = cumulativeSum(expVal);
