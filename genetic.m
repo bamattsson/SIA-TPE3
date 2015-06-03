@@ -7,7 +7,7 @@ trainingAmount = 200;
 
 m = 2;
 t = 0.5; %% between 0 and 1!
-n1= 3;
+n1= 2;
 
 notUniformMutation = 0;
 mutChange = 0.1;
@@ -20,8 +20,6 @@ numSurvivors=0; % inicializacion, esto no va a archivo de conf
 iterationsStrc=0; % counter for structure break
 numItStrucTol = 20; %number of generations compared for structure break
 
-hasBackPropagation = 0;
-
 %-%%%%%%%%%Loading values from init csv%%%%%%%%%%%%%
 values = csvread('./csv/init.csv',0,1);
 replacementMode = values(1);
@@ -31,9 +29,10 @@ maxGenerations = values(4);
 mutationProbability = values(5);
 selectionMode = getSelectionMode(values(6));
 replacementCriteria = getSelectionMode(values(7));
-secondSelectionMode = getSelectionMode(values(8));
-secondReplacementMode = getSelectionMode(values(9));
+secondSelectionMode = getSecondSelectionMode(values(8));
+secondReplacementMode = getSecondSelectionMode(values(9));
 crossMode = getCrossMode(values(10));
+backpropagationPoss = values(11);
 %-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pc=0.9;
 
@@ -49,6 +48,7 @@ iteration = 0;
 while (~breakCriteriaReached)
 	iteration = iteration + 1;
   % Part that does the replacement
+    
   switch (replacementMode)
     case (1)
       W_new = replacement1(W, individualsAmount, mutationProbability, mutChange, selectionMode, m ,iteration, F, n1, secondSelectionMode, crossMode, pc);
@@ -60,23 +60,24 @@ while (~breakCriteriaReached)
       clear('W');
       W = W_new;
     case (3)
-      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, iteration, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, hasBackPropagation, crossMode, pc);
+      [W_new numSurvivors]= replacement3(W, selectionAmount, mutationProbability, mutChange, selectionMode, m, iteration, training, expected, gName, capas, n1, secondSelectionMode, F, replacementCriteria, secondReplacementMode, crossMode, pc);
       clear('W');
       W = W_new;
   end
-
+  
 	% Evaluates the new individuals
 	% NOTE: Maybe we should put this part in replacementX since it probably
 	% needs to be calculated in replacement2 and replacement3
-	if(hasBackPropagation)
-		for i=1:individualsAmount
-	  	W{i} = trainNet(W{i}, 100, 2, 100*50, 7, 'tangente', -1, -1, -1, 0, 0);
-		end
-	end
+    for i=1:individualsAmount
+        if (rand < backpropagationPoss)
+            W{i} = trainNet(W{i}, 200, 2, 20, 0.0001, 'tangente', -1, -1, -1, 0, 0);
+        end
+    end
 
 	for i=1:individualsAmount
 		F(i) = fitness(W{i}, training, expected, gName, capas);
     end
+      
     
 
   % Plotting the best individual and the mean
@@ -91,6 +92,7 @@ while (~breakCriteriaReached)
       Out(j) = o(2);
   end
 
+  figure(1)
   subplot(1,2,2);
   plot(training',Out); 
   title('Mejor individuo');
